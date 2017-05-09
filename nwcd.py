@@ -22,9 +22,11 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
-    print(additional_down(
+    results = additional_down(
         tracker_tiers=nwcd_required_ratio_args(),
         up=args.up,
         down=args.down,
-        new_fraction_seeded=args.new_fraction_seeded)
+        min_new_fraction_seeded=args.min_new_fraction_seeded
     )
+
+    print(results)

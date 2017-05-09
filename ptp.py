@@ -23,5 +23,5 @@ if __name__ == '__main__':
         tracker_tiers=ptp_required_ratio_args(),
         up=args.up,
         down=args.down,
-        new_fraction_seeded=args.new_fraction_seeded)
+        min_new_fraction_seeded=args.min_new_fraction_seeded)
     )
