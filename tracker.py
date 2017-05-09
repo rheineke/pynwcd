@@ -68,7 +68,7 @@ def _ratio(required_ratio_obj, new_fraction_seeded):
 def _min_ratio_seeded(required_ratio_obj, up):
     calc_ratio = up / required_ratio_obj.max_down
     max_ratio = max(calc_ratio, required_ratio_obj.required_ratio_100)
-    return 1 - max_ratio / required_ratio_obj.required_ratio_0
+    return max(0, 1 - max_ratio / required_ratio_obj.required_ratio_0)
 
 
 def get_parser():
