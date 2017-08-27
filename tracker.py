@@ -3,6 +3,14 @@ import functools
 from collections import namedtuple
 
 
+class MaxTier(namedtuple(
+    'MaxTier', field_names=['additional_down', 'tier', 'min_ratio_seeded']
+)):
+    def __str__(self):
+        f = 'MaxTier(additional_down={:.3f}, tier={}, min_ratio_seeded={:.3f})'
+        return f.format(self.additional_down, self.tier, self.min_ratio_seeded)
+
+
 def additional_down(tracker_tiers, up, down, min_new_fraction_seeded=0):
     """
     Returns three related quantities:
@@ -41,7 +49,7 @@ def additional_down(tracker_tiers, up, down, min_new_fraction_seeded=0):
 
     # Return another namedtuple
     field_names = ['additional_down', 'tier', 'min_ratio_seeded']
-    MaxTier = namedtuple('MaxTier', field_names=field_names)
+    # MaxTier = namedtuple('MaxTier', field_names=field_names)
     return MaxTier(max_add_down, rr, _min_ratio_seeded(rr, up))
 
 
