@@ -3,11 +3,9 @@ import functools
 from collections import namedtuple
 
 
-class MaxTier(namedtuple(
-    'MaxTier', field_names=['additional_down', 'tier', 'min_ratio_seeded']
-)):
+class MaxTier(namedtuple("MaxTier", ["additional_down", "tier", "min_ratio_seeded"])):
     def __str__(self):
-        f = 'MaxTier(additional_down={:.3f}, tier={}, min_ratio_seeded={:.3f})'
+        f = "MaxTier(additional_down={:.3f}, tier={}, min_ratio_seeded={:.3f})"
         return f.format(self.additional_down, self.tier, self.min_ratio_seeded)
 
 
@@ -34,11 +32,7 @@ def additional_down(tracker_tiers, up, down, min_new_fraction_seeded=0):
 
     # For current required ratio range and higher, calculate maximum amount of
     # data that can be downloaded
-    func_kwargs = dict(
-        up=up,
-        down=down,
-        new_fraction_seeded=min_new_fraction_seeded
-    )
+    func_kwargs = dict(up=up, down=down, new_fraction_seeded=min_new_fraction_seeded)
     func = functools.partial(_additional_down, **func_kwargs)
     add_down = list(map(func, rr_list[i:]))
 
@@ -48,16 +42,14 @@ def additional_down(tracker_tiers, up, down, min_new_fraction_seeded=0):
     rr = rr_list[i + inc_i]
 
     # Return another namedtuple
-    field_names = ['additional_down', 'tier', 'min_ratio_seeded']
+    field_names = ["additional_down", "tier", "min_ratio_seeded"]
     # MaxTier = namedtuple('MaxTier', field_names=field_names)
     return MaxTier(max_add_down, rr, _min_ratio_seeded(rr, up))
 
 
 def _required_ratio_list(argument_list):
-    field_names = [
-        'min_down', 'max_down', 'required_ratio_0', 'required_ratio_100'
-    ]
-    RequiredRatio = namedtuple('RequiredRatio', field_names=field_names)
+    field_names = ["min_down", "max_down", "required_ratio_0", "required_ratio_100"]
+    RequiredRatio = namedtuple("RequiredRatio", field_names=field_names)
 
     return [RequiredRatio(*args) for args in argument_list]
 
@@ -83,15 +75,12 @@ def get_parser():
     """
     :return: argparse.ArgumentParser
     """
-    desc = 'Calculate max additional download'
+    desc = "Calculate max additional download"
     p = argparse.ArgumentParser(description=desc)
-    p.add_argument('--up', type=_nonnegative_float, required=True)
-    p.add_argument('--down', type=_nonnegative_float, required=True)
+    p.add_argument("--up", type=_nonnegative_float, required=True)
+    p.add_argument("--down", type=_nonnegative_float, required=True)
     p.add_argument(
-        '--min_new_fraction_seeded',
-        type=_fraction_float,
-        required=False,
-        default=0
+        "--min_new_fraction_seeded", type=_fraction_float, required=False, default=0
     )
 
     return p
@@ -101,7 +90,7 @@ def _nonnegative_float(value):
     f_val = float(value)
 
     if f_val < 0:
-        msg_fmt = '%s is an invalid nonnegative float value'
+        msg_fmt = "%s is an invalid nonnegative float value"
         raise argparse.ArgumentTypeError(msg_fmt % value)
 
     return f_val
@@ -111,7 +100,7 @@ def _fraction_float(value):
     f_val = float(value)
 
     if not 0 <= f_val <= 1:
-        msg_fmt = '{} is an invalid fraction between 0 and 1'
+        msg_fmt = "{} is an invalid fraction between 0 and 1"
         raise argparse.ArgumentTypeError(msg_fmt.format(f_val))
 
     return f_val
